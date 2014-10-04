@@ -26,3 +26,5 @@
 *.exe
 *.out
 *.app
+#in and out file
+*.dat
