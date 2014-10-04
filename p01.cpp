@@ -13,6 +13,7 @@
 #include <cstdlib>
 #include <string>
 #include <cstring>
+#include <iomanip>
 
 
 using namespace std;
@@ -55,7 +56,65 @@ char decoder(char c2, char c1, char c0)
 		return 'P';
        	
 }
-
+char andGate(char first, char second)
+{
+	if(first == '1' && second == '1')
+		return '1';
+	else 
+		return '0';
+}
+char orGate(char first, char second)
+{
+	if(first == '0' && second == '0')
+		return '0';
+	else 
+		return '1';
+}
+char notGate(char sig)
+{
+	if(sig == '0')
+		return '1';
+	else
+		return '0';
+}
+char* regAndGate(char R0[], char R1[])
+{
+	char* toReturn = new char[9];
+	for(int i = 0; i <strlen(R0);i++)
+	{
+		toReturn[i] = andGate(R0[i], R1[i]);
+	}
+	toReturn[8] = '\0';
+	return toReturn;	
+		
+}
+char* regOrGate(char R0[], char R1[])
+{
+	char* toReturn = new char[9];
+	for(int i = 0; i <strlen(R0);i++)
+	{
+		toReturn[i] = orGate(R0[i], R1[i]);
+	}
+	toReturn[8] = '\0';
+	return toReturn;	
+}
+char* regNotGate(char R0[])
+{
+	char* toReturn = new char[9];
+	for(int i = 0; i <strlen(R0);i++)
+	{
+		toReturn[i] = notGate(R0[i]);
+	}
+	toReturn[8] = '\0';
+	return toReturn;	
+}
+void regLoad(char reg[],char data[])
+{
+	for(int i = 0; i <= strlen(reg);i++)
+	{
+		reg[i] = data[i];
+	}
+}
 
 int main(int argc, char* argv[])
 {
@@ -90,7 +149,11 @@ int main(int argc, char* argv[])
 		ofstream o(ofn);
 		if(!o)
 			throw FileException(ofn);
-
+		char R0[] = {'0','0','0','0','0','0','0','0','\0'};
+		char R1[] = {'0','0','0','0','0','0','0','0','\0'};
+		char* tmp;
+		char* tmp2;
+		char* tmp3;
 		while(i.peek() != EOF)
 		{
 			char c2,c1,c0;
@@ -123,32 +186,94 @@ int main(int argc, char* argv[])
 				exit(EXIT_FAILURE);
 			}
 			char op = decoder(c2,c1,c0);
-			cout<<"op: " <<op << endl;
 			switch(op)
 			{
 				case '+':
+						o << setw(20) << setfill('-')<< "-" << endl;
+						o << "Initial conditions: R0: " << string(R0) << " R1: " << string(R1) << endl;	
 						o << "op code: 000 operation: R0 <-- R0 XOR R1"<<endl;
+						tmp = regNotGate(R0);
+						tmp2 = regNotGate(R1);
+						tmp3 = regAndGate(tmp,tmp2);
+						delete tmp,tmp2;
+						tmp = regAndGate(R0,R1);
+						tmp2 = regOrGate(tmp3,tmp);
+						delete tmp3,tmp;
+						tmp = regNotGate(tmp2);
+						regLoad(R0,tmp);
+						delete tmp,tmp2;
+						o << "Post operation conditions: R0: " << string (R0) << " R1: "<< string(R1) << endl;
+						o << setw(20) << setfill('-')<< "-" << endl << endl;	
 						break;	
 				case 'v':
+						
+						o << setw(20) << setfill('-')<< "-" << endl;
+						o << "Initial conditions: R0: " << string(R0) << " R1: " << string(R1) << endl;	
 						o << "op code: 001 operation: R0 <-- R0 OR R1"<<endl;
+						tmp = regOrGate(R0,R1);
+						regLoad(R0,tmp);
+						delete tmp;
+						o << "Post operation conditions: R0: " << string (R0) << " R1: "<< string(R1) << endl;
+						o << setw(20) << setfill('-')<< "-" << endl << endl;	
 						break;
 				case '-':
-						o << "op code: 010 operation: R0 <-- R0 XNOR R1"<<endl;
+						o << setw(20) << setfill('-')<< "-" << endl;	
+						o << "Initial conditions: R0: " << string(R0) << " R1: " << string(R1) << endl;	
+						o << "op code: 010 operation: R0 <-- R0 XNOR R1"<<endl; 
+						tmp = regNotGate(R0);
+						tmp2 = regNotGate(R1);
+						tmp3 = regAndGate(tmp,tmp2);
+						delete tmp,tmp2;
+						tmp = regAndGate(R0,R1);
+						tmp2 = regOrGate(tmp3,tmp);
+						regLoad(R0,tmp2);
+						delete tmp,tmp2,tmp3;
+						o << "Post operation conditions: R0: " << string (R0) << " R1: "<< string(R1) << endl;
+						o << setw(20) << setfill('-')<< "-" << endl << endl;	
 						break;
 				case '^':
+						o << setw(20) << setfill('-')<< "-" << endl;	
+						o << "Initial conditions: R0: " << string(R0) << " R1: " << string(R1) << endl;	
 						o << "op code: 011 operation: R0 <-- R0 AND R1"<<endl;
+						tmp = regAndGate(R0,R1); 
+						regLoad(R0,tmp);
+						delete tmp;
+						o << "Post operation conditions: R0: " << string (R0) << " R1: "<< string(R1) << endl;
+						o << setw(20) << setfill('-')<< "-" << endl << endl;	
 						break;
 				case 'l':
+						o << setw(20) << setfill('-')<< "-" << endl;	
+						o << "Initial conditions: R0: " << string(R0) << " R1: " << string(R1) << endl;	
 						o << "op code: 100 operation: R0 <-- D"<<endl;
+						regLoad(R0,data);
+						o << "Post operation conditions: R0: " << string (R0) << " R1: "<< string(R1) << endl;
+						o << setw(20) << setfill('-')<< "-" << endl<< endl;	
 						break;
 				case 'L':
+						o << setw(20) << setfill('-')<< "-" << endl;	
+						o << "Initial conditions: R0: " << string(R0) << " R1: " << string(R1) << endl;	
 						o << "op code: 101 operation: R1 <-- D"<<endl;
+						regLoad(R1,data);
+						o << "Post operation conditions: R0: " << string (R0) << " R1: "<< string(R1) << endl;
+						o << setw(20) << setfill('-')<< "-" << endl<< endl;	
 						break;
 				case 'p':
+						o << setw(20) << setfill('-')<< "-" << endl;	
+						o << "Initial conditions: R0: " << string(R0) << " R1: " << string(R1) << endl;	
 						o << "op code: 110 operation: Print R0 "<<endl;
+						o <<"R0 : " << string(R0) << endl;
+						cout <<"R0: " <<  string(R0) << endl;
+						o << "Post operation conditions: R0: " << string (R0) << " R1: "<< string(R1) << endl;
+						o << setw(20) << setfill('-')<< "-" << endl<< endl;	
 						break;
 				case 'P':
+						o << setw(20) << setfill('-')<< "-" << endl;	
+						o << "Initial conditions: R0: " << string(R0) << " R1: " << string(R1) << endl;	
 						o << "op code: 111 operation: Print R1"<<endl;
+						o << "R1: " <<string(R1) << endl;
+						cout <<"R1: " << string(R1) << endl;
+						o << "Post operation conditions: R0: " << string (R0) << " R1: "<< string(R1) << endl;
+						o << setw(20) << setfill('-')<< "-" << endl<< endl;	
 						break;
 				default:
 						;
