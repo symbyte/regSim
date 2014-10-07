@@ -94,13 +94,14 @@ class Register
 		}
 		
 	}
-	void printReg(Register& toPrint)
+	string printReg()
 	{
+		string output = string(numFlipFlops, '0');
 		for(int i = 0; i < numFlipFlops;i++)
 		{	
-			cout << toPrint.flipflops.at(i).getState();	
+			if(this->flipflops.at(i).getState() == '1')
+				output[i] == '1';	
 		}
-		cout << endl;
 	}
 	
 
