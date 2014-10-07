@@ -57,65 +57,7 @@ char decoder(char c2, char c1, char c0)
 		return 'P';
        	
 }
-char andGate(char first, char second)
-{
-	if(first == '1' && second == '1')
-		return '1';
-	else 
-		return '0';
-}
-char orGate(char first, char second)
-{
-	if(first == '0' && second == '0')
-		return '0';
-	else 
-		return '1';
-}
-char notGate(char sig)
-{
-	if(sig == '0')
-		return '1';
-	else
-		return '0';
-}
-char* regAndGate(char R0[], char R1[])
-{
-	char* toReturn = new char[9];
-	for(int i = 0; i <strlen(R0);i++)
-	{
-		toReturn[i] = andGate(R0[i], R1[i]);
-	}
-	toReturn[8] = '\0';
-	return toReturn;	
-		
-}
-char* regOrGate(char R0[], char R1[])
-{
-	char* toReturn = new char[9];
-	for(int i = 0; i <strlen(R0);i++)
-	{
-		toReturn[i] = orGate(R0[i], R1[i]);
-	}
-	toReturn[8] = '\0';
-	return toReturn;	
-}
-char* regNotGate(char R0[])
-{
-	char* toReturn = new char[9];
-	for(int i = 0; i <strlen(R0);i++)
-	{
-		toReturn[i] = notGate(R0[i]);
-	}
-	toReturn[8] = '\0';
-	return toReturn;	
-}
-void regLoad(char reg[],char data[])
-{
-	for(int i = 0; i <= strlen(reg);i++)
-	{
-		reg[i] = data[i];
-	}
-}
+
 
 int main(int argc, char* argv[])
 {
