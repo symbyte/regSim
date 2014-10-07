@@ -14,6 +14,7 @@
 #include <string>
 #include <cstring>
 #include <iomanip>
+#include "Register01.h"
 
 
 using namespace std;
