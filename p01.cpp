@@ -187,7 +187,7 @@ int main(int argc, char* argv[])
 			string dataString= string(data);
 			switch(op)
 			{
-				case '+':
+				case '+':	
 						o << setw(20) << setfill('-')<< "-" << endl;
 						o << "Initial conditions: R0: " << R0.printReg() << " R1: " << R1.printReg() << endl;	
 						o << "op code: 000 operation: R0 <-- R0 XOR R1"<<endl;
@@ -226,7 +226,7 @@ int main(int argc, char* argv[])
 						o << "op code: 100 operation: R0 <-- D"<<endl;
 						R0.regLoad(dataString);
 						o << "Post operation conditions: R0: " << R0.printReg() << " R1: "<< R1.printReg() << endl;
-						o << setw(20) << setfill('-')<< "-" << endl<< endl;	
+						o << setw(20) << setfill('-')<< "-" << endl<< endl;
 						break;
 				case 'L':
 						o << setw(20) << setfill('-')<< "-" << endl;	

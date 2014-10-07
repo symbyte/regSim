@@ -93,6 +93,7 @@ class Register
 			this->flipflops.at(i).setState(toLoad[i]);
 		}
 		
+		
 	}
 	string printReg()
 	{
@@ -100,8 +101,9 @@ class Register
 		for(int i = 0; i < numFlipFlops;i++)
 		{	
 			if(this->flipflops.at(i).getState() == '1')
-				output[i] == '1';	
+				output[i] = '1';	
 		}
+		return output;
 	}
 	
 
