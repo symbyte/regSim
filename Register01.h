@@ -7,22 +7,22 @@
 
 using namespace std;
 
-class Register01
+class Register
 {
 	private:
-	vector<Flipflop01> flipflops;
+	vector<Flipflop> flipflops;
 	int numFlipFlops;	
 
 	public:
-	Register01(int numFlipFlops)
+	Register(int numFlipFlops)
 	{
 		this->numFlipFlops = numFlipFlops;
 		for(int i = 0; i < numFlipFlops;i++)
 		{
-			flipflops.push_back(Flipflop01());
+			flipflops.push_back(Flipflop());
 		}	
 	}
-	string regOr(Register01& compare)
+	string regOr(Register& compare)
 	{
 		string output = string(numFlipFlops, '0');
 		for(int i = 0; i < numFlipFlops; i++)
@@ -32,7 +32,7 @@ class Register01
 		}
 		return output;
 	}
-	string regAnd(Register01& compare)
+	string regAnd(Register& compare)
 	{
 		string output = string(numFlipFlops, '0');
 		for(int i = 0; i < numFlipFlops; i++)
@@ -43,22 +43,47 @@ class Register01
 		return output;
 
 	}
-	string regNot(Register01& compare)
+	string regNot()
 	{
 		string output = string(numFlipFlops, '0');
 		for(int i = 0; i < numFlipFlops; i++)
 		{
-				output[i] = compare.flipflops.at(i).compState();
+				output[i] = this->flipflops.at(i).compState();
 		}
 		return output;
 
 	}
-	string regXOR(Register01& compare)
+	string regXOR(Register& compare)
 	{
-		
+		string tmp = this->regXNOR(compare);
+		for(int i = 0; i < numFlipFlops; i++)
+		{
+			if(tmp[i] == '1')
+				tmp[i] = '0';
+			else 
+				tmp[i] = '1';
+		}
+		return tmp;	
 	}
-	string regXNOR(Register01& compare)
+	string regXNOR(Register& compare)
 	{
+		string R0not = this->regNot();
+		string R1not = compare.regNot();
+		string tmp= string(numFlipFlops, '0');
+		for(int i = 0;i < numFlipFlops; i++)
+		{
+			if(R0not[i] == '1'&& R1not[i] =='1')
+				tmp[i] = '1';
+		}
+		string R0andR1 = this->regAnd(compare);
+		string output= string(numFlipFlops,'0');
+	      	for(int i = 0; i < numFlipFlops; i++)
+		{
+			if(!(tmp[i] == '0' && R0andR1[i] == '0'))
+				output[i] = '1';
+
+		}
+		return output;	
 
 	}
 	void regLoad(string toLoad)
@@ -68,6 +93,14 @@ class Register01
 			this->flipflops.at(i).setState(toLoad[i]);
 		}
 		
+	}
+	void printReg(Register& toPrint)
+	{
+		for(int i = 0; i < numFlipFlops;i++)
+		{	
+			cout << toPrint.flipflops.at(i).getState();	
+		}
+		cout << endl;
 	}
 	
 

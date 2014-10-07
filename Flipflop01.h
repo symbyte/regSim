@@ -1,12 +1,12 @@
 #ifndef FLIPFLOP01_H
 #define FLIPFLOP01_H
-class Flipflop01
+class Flipflop
 {
 	private:
 	char state;
 
 	public:
-	Flipflop01()
+	Flipflop()
 	{
 		this->state = '0';
 	}
