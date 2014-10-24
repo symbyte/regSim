@@ -97,17 +97,20 @@ int main(int argc, char* argv[])
 		while(i.peek() != EOF)
 		{
 			char c2,c1,c0;
-			char inString[255];
+			char inCString[255];
 			char data[9];
 			bool dataFound = false;
-			i.getline(inString,255);
-			if(strlen(inString) == 4)
+			i.getline(inCString,255);
+            string inString = string(inCString);
+            if(inString[inString.size()-1] == '\r')
+                inString.resize(inString.size()-1);
+			if(inString.length() == 3)
 			{
 				c2 = inString[0];
 				c1 = inString[1];
 				c0 = inString[2];
 			}
-			else if(strlen(inString) == 13)
+			else if(inString.length() == 12)
 			{
 				dataFound = true;
 				c2 = inString[0];
@@ -123,6 +126,8 @@ int main(int argc, char* argv[])
 			else
 			{
 				cout << "For shame! You did not follow the input file format!"<< endl;
+                cout << "The length of inString is: " << inString.size() << endl;
+                cout << "The inString was: " << inString << "$" <<  endl;
 				exit(EXIT_FAILURE);
 			}
 			char op = decoder(c2,c1,c0);
