@@ -6,7 +6,7 @@
 // CRN:		11404, Autumn 2014
 // Project: 	p01
 // Due: 	November 10, 2014
-// Account: 	tt060
+// Account: 	tt002
 //---------------------------------------------------------
 #include <iostream>
 #include <fstream>
