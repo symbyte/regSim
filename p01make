@@ -9,8 +9,11 @@
 ## Account: 	tt060
 ##---------------------------------------------------------
 
-p01:	p01.o Register01.h Flipflop01.o 
-	g++ p01.o Flipflop01.o -o p01
+p01:	p01.o Register01.o Flipflop01.o 
+	g++ p01.o Flipflop01.o Register01.o -o p01
+
+Register01.o:	Register01.h Register01.cpp Flipflop01.h 
+	g++ -c Register01.cpp
 
 Flipflop01.o:	Flipflop01.h Flipflop01.cpp
 	g++ -c Flipflop01.cpp
