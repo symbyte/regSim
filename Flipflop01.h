@@ -6,22 +6,10 @@ class Flipflop
 	char state;
 
 	public:
-	Flipflop()
-	{
-		this->state = '0';
-	}
-	void setState(char newState)
-	{
-		this->state = newState;
-	}
-	char getState()
-	{
-		return this->state;
-	}
-	char compState()
-	{
-		return this->state == '0'? '1': '0';
-	}
+	Flipflop();
+	void setState(char);
+	char getState();
+	char compState();
 	
 };
 
